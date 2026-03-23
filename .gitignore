@@ -1,0 +1,15 @@
+.next
+node_modules
+.env
+.env.local
+dist
+build
+logs
+*.log
+coverage
+*.sqlite
+*.sqlite-journal
+prisma/*.db
+prisma/*.db-journal
+*.tsbuildinfo
+AGENTS.md

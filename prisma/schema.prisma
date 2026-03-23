@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum MemoryCategory {
+  FIRST_SMILE
+  FIRST_TOOTH
+  FIRST_STEPS
+  FIRST_WORD
+  DOCTOR_VISIT
+  PHOTO_MEMORY
+  MILESTONE
+}
+
+model Child {
+  id         String        @id @default(cuid())
+  firstName  String
+  lastName   String?
+  birthDate  DateTime
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  memories   Memory[]
+  growthLogs GrowthEntry[]
+}
+
+model Memory {
+  id          String         @id @default(cuid())
+  childId      String
+  title        String
+  category     MemoryCategory
+  eventDate    DateTime
+  description  String
+  imageUrl     String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  child        Child          @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  @@index([childId, eventDate])
+}
+
+model GrowthEntry {
+  id          String    @id @default(cuid())
+  childId     String
+  recordedAt  DateTime
+  heightCm    Float
+  weightKg    Float
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  child       Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  @@unique([childId, recordedAt])
+  @@index([childId, recordedAt])
+}
