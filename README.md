@@ -46,4 +46,25 @@ Create a production build with:
 ```bash
 npm run build
 ```
-# Baby-Life-Album-MVP
+
+## Database
+
+The project now uses Prisma with PostgreSQL.
+
+For local development and Vercel deployment, set `DATABASE_URL` in your environment:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public"
+```
+
+## Vercel deployment
+
+1. Provision a PostgreSQL database.
+2. Add `DATABASE_URL` in Vercel project environment variables.
+3. Apply migrations:
+
+```bash
+npm run prisma:deploy
+```
+
+4. Redeploy the app.
