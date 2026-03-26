@@ -7,10 +7,21 @@ import { getI18n } from "@/lib/i18n/server";
 type SignInPageProps = {
   searchParams: Promise<{
     message?: string;
+    code?: string;
+    next?: string;
   }>;
 };
 
 export default async function SignInPage({ searchParams }: SignInPageProps) {
+  const params = await searchParams;
+
+  if (params.code) {
+    const callbackUrl = new URL("/auth/callback", process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000");
+    callbackUrl.searchParams.set("code", params.code);
+    callbackUrl.searchParams.set("next", params.next ?? "/dashboard");
+    redirect(callbackUrl.toString());
+  }
+
   const user = await getCurrentUser();
 
   if (user) {
@@ -18,7 +29,6 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
   }
 
   const { dictionary } = await getI18n();
-  const params = await searchParams;
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-10">
