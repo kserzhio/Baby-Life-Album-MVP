@@ -45,6 +45,35 @@ async function main() {
       ]
     });
   }
+
+  const existingGrowth = await prisma.growthEntry.count({
+    where: {
+      userId,
+      babyId: baby.id
+    }
+  });
+
+  if (existingGrowth === 0) {
+    await prisma.growthEntry.createMany({
+      data: [
+        {
+          userId,
+          babyId: baby.id,
+          recordedAt: new Date("2026-03-10T08:00:00.000Z"),
+          weightKg: 4.2,
+          heightCm: 54
+        },
+        {
+          userId,
+          babyId: baby.id,
+          recordedAt: new Date("2026-03-24T08:00:00.000Z"),
+          weightKg: 4.8,
+          heightCm: 56.5,
+          note: "Pediatrician checkup"
+        }
+      ]
+    });
+  }
 }
 
 main()

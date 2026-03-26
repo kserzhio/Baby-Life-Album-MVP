@@ -27,13 +27,14 @@ enum DiaperType {
 }
 
 model Baby {
-  id        String   @id @default(cuid())
-  userId    String
-  name      String
-  birthDate DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  events    Event[]
+  id            String        @id @default(cuid())
+  userId        String
+  name          String
+  birthDate     DateTime
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  events        Event[]
+  growthEntries GrowthEntry[]
 
   @@index([userId, createdAt])
 }
@@ -56,4 +57,20 @@ model Event {
   @@index([userId, startedAt(sort: Desc)])
   @@index([babyId, startedAt(sort: Desc)])
   @@index([userId, type, startedAt(sort: Desc)])
+}
+
+model GrowthEntry {
+  id         String   @id @default(cuid())
+  userId     String
+  babyId     String
+  recordedAt DateTime
+  weightKg   Float
+  heightCm   Float
+  note       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  baby       Baby     @relation(fields: [babyId], references: [id], onDelete: Cascade)
+
+  @@index([userId, recordedAt(sort: Desc)])
+  @@index([babyId, recordedAt(sort: Desc)])
 }

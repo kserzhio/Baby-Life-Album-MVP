@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Baby, Clock3, LayoutDashboard } from "lucide-react";
+import { Baby, Clock3, LayoutDashboard, Ruler } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const iconMap = {
   "/dashboard": LayoutDashboard,
   "/babies": Baby,
-  "/timeline": Clock3
+  "/timeline": Clock3,
+  "/growth": Ruler
 };
 
 export function SidebarNav({

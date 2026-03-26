@@ -1,4 +1,5 @@
-import { Baby, Cookie, MoonStar, NotebookPen, RotateCcw } from "lucide-react";
+import { Baby, Cookie, MoonStar, NotebookPen, RotateCcw, Ruler } from "lucide-react";
+import Link from "next/link";
 
 import { requireCurrentUser } from "@/features/auth/data/auth.repository";
 import { BabyForm } from "@/features/babies/components/baby-form";
@@ -12,7 +13,8 @@ const iconMap = {
   feeding: Cookie,
   sleep: MoonStar,
   diaper: RotateCcw,
-  note: NotebookPen
+  note: NotebookPen,
+  growth: Ruler
 };
 
 export async function DashboardContent() {
@@ -25,7 +27,8 @@ export async function DashboardContent() {
     { key: "feeding", label: dictionary.dashboard.feedingCount, value: data.summary.feeding },
     { key: "sleep", label: dictionary.dashboard.sleepCount, value: data.summary.sleep },
     { key: "diaper", label: dictionary.dashboard.diaperCount, value: data.summary.diaper },
-    { key: "note", label: dictionary.dashboard.noteCount, value: data.summary.note }
+    { key: "note", label: dictionary.dashboard.noteCount, value: data.summary.note },
+    { key: "growth", label: dictionary.dashboard.growthCount, value: data.summary.growth }
   ] as const;
 
   return (
@@ -35,7 +38,7 @@ export async function DashboardContent() {
         <p className="text-muted-foreground">{dictionary.dashboard.description}</p>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
         {cards.map((card) => {
           const Icon = iconMap[card.key];
 
@@ -101,16 +104,56 @@ export async function DashboardContent() {
           </div>
 
           <section className="space-y-3">
-            <h2 className="font-[family-name:var(--font-heading)] text-3xl text-foreground">
-              {dictionary.dashboard.recentTitle}
-            </h2>
-            <EventList
-              events={data.babies.length === 0 ? data.todayEvents : data.recentEvents}
-              emptyTitle={dictionary.dashboard.emptyTitle}
-              emptyDescription={dictionary.dashboard.emptyDescription}
-              dictionary={dictionary}
-              locale={locale}
-            />
+            <div className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-soft">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h2 className="font-[family-name:var(--font-heading)] text-3xl text-foreground">
+                    {dictionary.dashboard.growthTitle}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{dictionary.dashboard.growthDescription}</p>
+                </div>
+                <Link href="/growth" className="rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-foreground">
+                  {dictionary.dashboard.openGrowth}
+                </Link>
+              </div>
+              {data.latestGrowthEntries.length === 0 ? (
+                <p className="mt-4 text-sm text-muted-foreground">{dictionary.dashboard.noGrowthYet}</p>
+              ) : (
+                <div className="mt-4 grid gap-3">
+                  {data.latestGrowthEntries.map((item) => (
+                    <div key={item.babyId} className="rounded-3xl bg-secondary/70 p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">{item.babyName}</p>
+                        <p className="text-xs font-medium text-muted-foreground">
+                          {new Date(item.entry.recordedAt).toLocaleDateString(locale === "uk" ? "uk-UA" : "en-US")}
+                        </p>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <span className="rounded-full bg-white px-3 py-2 text-sm font-semibold text-foreground">
+                          {item.entry.weightKg} {dictionary.growth.weightUnit}
+                        </span>
+                        <span className="rounded-full bg-white px-3 py-2 text-sm font-semibold text-foreground">
+                          {item.entry.heightCm} {dictionary.growth.heightUnit}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <section className="space-y-3">
+              <h2 className="font-[family-name:var(--font-heading)] text-3xl text-foreground">
+                {dictionary.dashboard.recentTitle}
+              </h2>
+              <EventList
+                events={data.babies.length === 0 ? data.todayEvents : data.recentEvents}
+                emptyTitle={dictionary.dashboard.emptyTitle}
+                emptyDescription={dictionary.dashboard.emptyDescription}
+                dictionary={dictionary}
+                locale={locale}
+              />
+            </section>
           </section>
         </div>
       </section>

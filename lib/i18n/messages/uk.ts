@@ -15,7 +15,8 @@ const uk = {
   navigation: {
     dashboard: "Головна",
     babies: "Діти",
-    timeline: "Стрічка"
+    timeline: "Стрічка",
+    growth: "Ріст"
   },
   auth: {
     badge: "Зручно однією рукою",
@@ -46,7 +47,12 @@ const uk = {
     feedingCount: "Годування",
     sleepCount: "Сон",
     diaperCount: "Підгузки",
-    noteCount: "Нотатки"
+    noteCount: "Нотатки",
+    growthCount: "Вимірювання",
+    growthTitle: "Трекер росту",
+    growthDescription: "Останні вага та зріст для кожної дитини.",
+    openGrowth: "Відкрити ріст",
+    noGrowthYet: "Ще немає записів росту."
   },
   babies: {
     title: "Діти",
@@ -68,6 +74,24 @@ const uk = {
     dayTotal: "{count} подій",
     emptyTitle: "Ще немає подій",
     emptyDescription: "Після додавання подій вони з’являться тут."
+  },
+  growth: {
+    title: "Ріст",
+    description: "Заносьте вагу й зріст, щоб легко бачити зміни з часом.",
+    babyLabel: "Дитина",
+    recordedAtLabel: "Час вимірювання",
+    weightLabel: "Вага (кг)",
+    heightLabel: "Зріст (см)",
+    noteLabel: "Нотатка",
+    notePlaceholder: "Необов'язковий коментар із візиту чи домашнього вимірювання",
+    submit: "Зберегти ріст",
+    submitting: "Зберігаємо...",
+    historyTitle: "Історія вимірювань",
+    emptyTitle: "Ще немає записів росту",
+    emptyDescription: "Додайте перше вимірювання ваги та зросту, щоб почати трекінг.",
+    weightUnit: "кг",
+    heightUnit: "см",
+    noteFallback: "Без нотатки."
   },
   eventForm: {
     title: "Швидка подія",
@@ -115,9 +139,12 @@ const uk = {
     nameMin: "Ім'я має містити щонайменше 2 символи.",
     birthDateRequired: "Дата народження обов'язкова.",
     babyIdRequired: "Оберіть дитину.",
+    recordedAtRequired: "Час вимірювання обов'язковий.",
     startedAtRequired: "Час початку обов'язковий.",
     endedAtInvalid: "Час завершення має бути пізніше за початок.",
     amountPositive: "Кількість має бути більшою за 0.",
+    weightPositive: "Вага має бути більшою за 0.",
+    heightPositive: "Зріст має бути більшим за 0.",
     noteMax: "Нотатка занадто довга."
   }
 } as const;

@@ -15,7 +15,8 @@ const en = {
   navigation: {
     dashboard: "Dashboard",
     babies: "Babies",
-    timeline: "Timeline"
+    timeline: "Timeline",
+    growth: "Growth"
   },
   auth: {
     badge: "One-hand friendly",
@@ -46,7 +47,12 @@ const en = {
     feedingCount: "Feedings",
     sleepCount: "Sleep sessions",
     diaperCount: "Diapers",
-    noteCount: "Notes"
+    noteCount: "Notes",
+    growthCount: "Growth logs",
+    growthTitle: "Growth tracker",
+    growthDescription: "Latest weight and height for each baby.",
+    openGrowth: "Open growth",
+    noGrowthYet: "No growth records yet."
   },
   babies: {
     title: "Babies",
@@ -68,6 +74,24 @@ const en = {
     dayTotal: "{count} events",
     emptyTitle: "No events yet",
     emptyDescription: "Once you log events, they’ll appear here."
+  },
+  growth: {
+    title: "Growth",
+    description: "Record weight and height so growth is easy to review over time.",
+    babyLabel: "Baby",
+    recordedAtLabel: "Measurement time",
+    weightLabel: "Weight (kg)",
+    heightLabel: "Height (cm)",
+    noteLabel: "Notes",
+    notePlaceholder: "Optional context from the checkup or home measurement",
+    submit: "Save growth",
+    submitting: "Saving...",
+    historyTitle: "Growth history",
+    emptyTitle: "No growth entries yet",
+    emptyDescription: "Add the first weight and height measurement to start tracking growth.",
+    weightUnit: "kg",
+    heightUnit: "cm",
+    noteFallback: "No note added."
   },
   eventForm: {
     title: "Quick event",
@@ -115,9 +139,12 @@ const en = {
     nameMin: "Name must be at least 2 characters.",
     birthDateRequired: "Birth date is required.",
     babyIdRequired: "Select a baby.",
+    recordedAtRequired: "Measurement time is required.",
     startedAtRequired: "Start time is required.",
     endedAtInvalid: "End time must be after start time.",
     amountPositive: "Amount must be greater than 0.",
+    weightPositive: "Weight must be greater than 0.",
+    heightPositive: "Height must be greater than 0.",
     noteMax: "Note is too long."
   }
 } as const;
