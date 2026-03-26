@@ -1,8 +1,8 @@
 import type { EventRecord } from "@/features/events/data/events.repository";
-import { getEventSummary, getEventTitle } from "@/features/events/event-presenter";
+import { getDailyEventCounts, getEventSummary, getEventTitle } from "@/features/events/event-presenter";
 import type { Dictionary } from "@/lib/i18n/messages";
 import type { Locale } from "@/lib/i18n/config";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatMessage } from "@/lib/utils";
 
 function groupEventsByDay(events: EventRecord[]) {
   const groups = new Map<string, EventRecord[]>();
@@ -41,9 +41,21 @@ export function EventList({
     <div className="space-y-6">
       {groupEventsByDay(events).map(([day, dayEvents]) => (
         <section key={day} className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            {formatDate(day, locale, "EEEE, MMM d")}
-          </h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              {formatDate(day, locale, "EEEE, MMM d")}
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-foreground">
+                {formatMessage(dictionary.timeline.dayTotal, { count: dayEvents.length })}
+              </span>
+              {getDailyEventCounts(dayEvents, dictionary).map((item) => (
+                <span key={item.type} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-muted-foreground">
+                  {formatMessage(dictionary.events.countLabel, { count: item.count, label: item.label })}
+                </span>
+              ))}
+            </div>
+          </div>
           <div className="space-y-3">
             {dayEvents.map((event) => (
               <article key={event.id} className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-soft">

@@ -10,6 +10,7 @@ export async function getDashboardData(userId: string) {
 
   return {
     babies,
+    todayEvents,
     recentEvents,
     summary: {
       babies: babies.length,

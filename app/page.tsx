@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/features/auth/data/auth.repository";
+import { countBabiesByUser } from "@/features/babies/data/babies.repository";
 
 type HomePageProps = {
   searchParams: Promise<{
@@ -21,5 +22,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const user = await getCurrentUser();
 
-  redirect(user ? "/dashboard" : "/auth/sign-in");
+  if (!user) {
+    redirect("/auth/sign-in");
+  }
+
+  const babiesCount = await countBabiesByUser(user.id);
+
+  redirect(babiesCount === 0 ? "/babies" : "/dashboard");
 }

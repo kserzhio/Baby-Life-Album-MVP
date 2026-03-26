@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { SignInForm } from "@/features/auth/components/sign-in-form";
 import { getCurrentUser } from "@/features/auth/data/auth.repository";
+import { countBabiesByUser } from "@/features/babies/data/babies.repository";
 import { getI18n } from "@/lib/i18n/server";
 
 type SignInPageProps = {
@@ -25,7 +26,8 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
   const user = await getCurrentUser();
 
   if (user) {
-    redirect("/dashboard");
+    const babiesCount = await countBabiesByUser(user.id);
+    redirect(babiesCount === 0 ? "/babies" : "/dashboard");
   }
 
   const { dictionary } = await getI18n();

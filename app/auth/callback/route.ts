@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { countBabiesByUser } from "@/features/babies/data/babies.repository";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
@@ -19,6 +20,20 @@ export async function GET(request: Request) {
   if (error) {
     redirectUrl.pathname = "/auth/sign-in";
     return NextResponse.redirect(redirectUrl);
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    const babiesCount = await countBabiesByUser(user.id);
+
+    if (babiesCount === 0) {
+      redirectUrl.pathname = "/babies";
+      redirectUrl.searchParams.delete("next");
+      return NextResponse.redirect(redirectUrl);
+    }
   }
 
   return NextResponse.redirect(redirectUrl);

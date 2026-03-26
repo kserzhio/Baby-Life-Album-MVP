@@ -15,7 +15,7 @@ import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createEventAction } from "@/features/events/actions/create-event";
 import { createEventSchema, type EventFormValues } from "@/features/events/event.schema";
-import { formatDateTimeLocal } from "@/lib/utils";
+import { cn, formatDateTimeLocal } from "@/lib/utils";
 
 export function EventForm({
   babies,
@@ -35,6 +35,8 @@ export function EventForm({
     diaperTypeLabel: string;
     noteLabel: string;
     notePlaceholder: string;
+    amountPresetsLabel: string;
+    sleepNowLabel: string;
     submit: string;
     submitting: string;
     types: Record<EventType, string>;
@@ -49,6 +51,7 @@ export function EventForm({
     noteMax: string;
   };
 }) {
+  const amountPresets = [60, 90, 120, 150];
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const form = useForm<EventFormValues>({
@@ -165,6 +168,26 @@ export function EventForm({
               <div className="space-y-2">
                 <Label htmlFor="amountMl">{dictionary.amountMlLabel}</Label>
                 <Input id="amountMl" type="number" min={1} {...form.register("amountMl", { valueAsNumber: true })} />
+                <div className="flex flex-wrap gap-2">
+                  <span className="w-full text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    {dictionary.amountPresetsLabel}
+                  </span>
+                  {amountPresets.map((amount) => (
+                    <button
+                      key={amount}
+                      type="button"
+                      className={cn(
+                        "rounded-full border px-3 py-2 text-sm font-semibold transition-colors",
+                        form.watch("amountMl") === amount
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-white text-foreground"
+                      )}
+                      onClick={() => form.setValue("amountMl", amount, { shouldValidate: true })}
+                    >
+                      {amount} ml
+                    </button>
+                  ))}
+                </div>
                 <FormMessage message={form.formState.errors.amountMl?.message} tone="error" />
               </div>
             </div>
@@ -173,14 +196,30 @@ export function EventForm({
           {eventType === EventType.DIAPER ? (
             <div className="space-y-2">
               <Label htmlFor="diaperType">{dictionary.diaperTypeLabel}</Label>
-              <Select id="diaperType" {...form.register("diaperType")}>
+              <div className="grid grid-cols-3 gap-2">
                 {Object.values(DiaperType).map((diaperType) => (
-                  <option key={diaperType} value={diaperType}>
+                  <Button
+                    key={diaperType}
+                    type="button"
+                    variant={form.watch("diaperType") === diaperType ? "default" : "outline"}
+                    onClick={() => form.setValue("diaperType", diaperType)}
+                  >
                     {dictionary.diaperTypes[diaperType]}
-                  </option>
+                  </Button>
                 ))}
-              </Select>
+              </div>
             </div>
+          ) : null}
+
+          {eventType === EventType.SLEEP ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => form.setValue("endedAt", formatDateTimeLocal(new Date()), { shouldValidate: true })}
+            >
+              {dictionary.sleepNowLabel}
+            </Button>
           ) : null}
 
           <div className="space-y-2">

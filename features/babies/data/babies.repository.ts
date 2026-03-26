@@ -25,3 +25,9 @@ export async function createBaby(userId: string, input: { name: string; birthDat
     }
   });
 }
+
+export async function countBabiesByUser(userId: string) {
+  return db.baby.count({
+    where: { userId }
+  });
+}

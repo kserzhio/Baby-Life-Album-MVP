@@ -33,6 +33,12 @@ const en = {
     description: "Fast actions for feeds, sleep, diapers, and notes.",
     babiesTitle: "Your babies",
     recentTitle: "Recent activity",
+    onboardingTitle: "Add your first baby",
+    onboardingDescription: "Once the profile is ready, feeds, sleep, diapers, and notes can be logged in seconds.",
+    onboardingStepOne: "Create the baby profile with name and birth date.",
+    onboardingStepTwo: "Come back here to log events with one hand.",
+    quickActionsTitle: "Quick actions",
+    summarySubtitle: "Today at a glance",
     emptyTitle: "No events yet today",
     emptyDescription: "Use the quick form below to log the first event.",
     addBabyHint: "Create a baby profile first so events have a home.",
@@ -59,6 +65,7 @@ const en = {
   timeline: {
     title: "Timeline",
     description: "Grouped by day so patterns are easy to scan.",
+    dayTotal: "{count} events",
     emptyTitle: "No events yet",
     emptyDescription: "Once you log events, they’ll appear here."
   },
@@ -74,6 +81,8 @@ const en = {
     diaperTypeLabel: "Diaper type",
     noteLabel: "Notes",
     notePlaceholder: "Short note if you need it",
+    amountPresetsLabel: "Quick amount",
+    sleepNowLabel: "Set end to now",
     submit: "Save event",
     submitting: "Saving...",
     types: {
@@ -98,7 +107,8 @@ const en = {
     feedingSummary: "{method} • {amount} ml",
     diaperSummary: "{diaperType} diaper",
     sleepSummary: "Slept for {duration}",
-    noteSummary: "Note added"
+    noteSummary: "Note added",
+    countLabel: "{count} {label}"
   },
   validation: {
     emailInvalid: "Enter a valid email address.",

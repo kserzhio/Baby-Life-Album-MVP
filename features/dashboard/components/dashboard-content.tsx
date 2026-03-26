@@ -1,7 +1,7 @@
 import { Baby, Cookie, MoonStar, NotebookPen, RotateCcw } from "lucide-react";
 
 import { requireCurrentUser } from "@/features/auth/data/auth.repository";
-import { getBabiesByUser } from "@/features/babies/data/babies.repository";
+import { BabyForm } from "@/features/babies/components/baby-form";
 import { getDashboardData } from "@/features/dashboard/data/dashboard.repository";
 import { EventForm } from "@/features/events/components/event-form";
 import { EventList } from "@/features/events/components/event-list";
@@ -18,7 +18,7 @@ const iconMap = {
 export async function DashboardContent() {
   const user = await requireCurrentUser();
   const { dictionary, locale } = await getI18n();
-  const [data, babies] = await Promise.all([getDashboardData(user.id), getBabiesByUser(user.id)]);
+  const data = await getDashboardData(user.id);
 
   const cards = [
     { key: "babies", label: dictionary.dashboard.totalBabies, value: data.summary.babies },
@@ -54,22 +54,44 @@ export async function DashboardContent() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,380px)_1fr]">
-        <EventForm
-          babies={babies.map((baby) => ({ id: baby.id, name: baby.name }))}
-          dictionary={dictionary.eventForm}
-          validation={dictionary.validation}
-        />
+        {data.babies.length === 0 ? (
+          <div className="space-y-4 rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-soft">
+            <div className="space-y-2">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">
+                {dictionary.dashboard.quickActionsTitle}
+              </p>
+              <h2 className="font-[family-name:var(--font-heading)] text-3xl text-foreground">
+                {dictionary.dashboard.onboardingTitle}
+              </h2>
+              <p className="text-sm leading-6 text-muted-foreground">{dictionary.dashboard.onboardingDescription}</p>
+            </div>
+            <div className="rounded-3xl bg-secondary/70 p-4">
+              <ul className="space-y-2 text-sm text-foreground">
+                <li>{dictionary.dashboard.onboardingStepOne}</li>
+                <li>{dictionary.dashboard.onboardingStepTwo}</li>
+              </ul>
+            </div>
+            <BabyForm dictionary={dictionary.babies} validation={dictionary.validation} />
+          </div>
+        ) : (
+          <EventForm
+            babies={data.babies.map((baby) => ({ id: baby.id, name: baby.name }))}
+            dictionary={dictionary.eventForm}
+            validation={dictionary.validation}
+          />
+        )}
 
         <div className="space-y-6">
           <div className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-soft">
             <h2 className="font-[family-name:var(--font-heading)] text-3xl text-foreground">
               {dictionary.dashboard.babiesTitle}
             </h2>
-            {babies.length === 0 ? (
+            <p className="mt-1 text-sm text-muted-foreground">{dictionary.dashboard.summarySubtitle}</p>
+            {data.babies.length === 0 ? (
               <p className="mt-3 text-sm text-muted-foreground">{dictionary.dashboard.addBabyHint}</p>
             ) : (
               <div className="mt-4 flex flex-wrap gap-3">
-                {babies.map((baby) => (
+                {data.babies.map((baby) => (
                   <div key={baby.id} className="rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-foreground">
                     {baby.name}
                   </div>
@@ -83,7 +105,7 @@ export async function DashboardContent() {
               {dictionary.dashboard.recentTitle}
             </h2>
             <EventList
-              events={data.recentEvents}
+              events={data.babies.length === 0 ? data.todayEvents : data.recentEvents}
               emptyTitle={dictionary.dashboard.emptyTitle}
               emptyDescription={dictionary.dashboard.emptyDescription}
               dictionary={dictionary}

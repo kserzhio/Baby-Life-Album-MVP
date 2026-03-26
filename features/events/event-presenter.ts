@@ -33,3 +33,24 @@ export function getEventSummary(event: EventRecord, locale: Locale, dictionary: 
 
   return event.note || dictionary.events.noNote;
 }
+
+export function getDailyEventCounts(events: EventRecord[], dictionary: Dictionary) {
+  const counts = new Map<string, { type: string; label: string; count: number }>();
+
+  for (const event of events) {
+    const existing = counts.get(event.type);
+
+    if (existing) {
+      existing.count += 1;
+      continue;
+    }
+
+    counts.set(event.type, {
+      type: event.type,
+      label: dictionary.eventForm.types[event.type],
+      count: 1
+    });
+  }
+
+  return Array.from(counts.values());
+}

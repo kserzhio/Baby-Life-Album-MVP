@@ -33,6 +33,12 @@ const uk = {
     description: "Швидкі дії для годування, сну, підгузків і нотаток.",
     babiesTitle: "Ваші діти",
     recentTitle: "Остання активність",
+    onboardingTitle: "Додайте першу дитину",
+    onboardingDescription: "Після створення профілю можна швидко логувати годування, сон, підгузки й нотатки.",
+    onboardingStepOne: "Створіть профіль дитини з ім'ям і датою народження.",
+    onboardingStepTwo: "Поверніться сюди, щоб логувати події однією рукою.",
+    quickActionsTitle: "Швидкі дії",
+    summarySubtitle: "Зріз за сьогодні",
     emptyTitle: "Сьогодні ще немає подій",
     emptyDescription: "Скористайтеся швидкою формою нижче, щоб додати першу подію.",
     addBabyHint: "Спочатку створіть профіль дитини, щоб зберігати події.",
@@ -59,6 +65,7 @@ const uk = {
   timeline: {
     title: "Стрічка",
     description: "Події згруповані за днями, щоб було легше бачити ритм.",
+    dayTotal: "{count} подій",
     emptyTitle: "Ще немає подій",
     emptyDescription: "Після додавання подій вони з’являться тут."
   },
@@ -74,6 +81,8 @@ const uk = {
     diaperTypeLabel: "Тип підгузка",
     noteLabel: "Нотатка",
     notePlaceholder: "Коротка нотатка за потреби",
+    amountPresetsLabel: "Швидкий обсяг",
+    sleepNowLabel: "Поставити кінець на зараз",
     submit: "Зберегти подію",
     submitting: "Зберігаємо...",
     types: {
@@ -98,7 +107,8 @@ const uk = {
     feedingSummary: "{method} • {amount} мл",
     diaperSummary: "{diaperType} підгузок",
     sleepSummary: "Сон {duration}",
-    noteSummary: "Додано нотатку"
+    noteSummary: "Додано нотатку",
+    countLabel: "{count} {label}"
   },
   validation: {
     emailInvalid: "Введіть коректну email адресу.",
